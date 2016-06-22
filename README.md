@@ -32,6 +32,10 @@ The [Okapi](https://github.com/grafos-ml/okapi) library implements a parallel ve
           k := k + 1
         end
         return M
+        
+### Assignment Problem
+
+The [assignment problem](http://en.wikipedia.org/wiki/Assignment_problem) is concerned with finding a maximum matching in a weighted bipartite graph. [This project](https://github.com/cloudera/matching) implements Bertsekas' [auction algorithm](https://en.wikipedia.org/wiki/Auction_algorithm) for the assignment problem on top of Giraph.
 
 ### Graph Partitioning
 
@@ -51,7 +55,6 @@ The computation of the Spinner algorithm works as follows. The algorithm first a
 After the vertices are initialized, they communicate their labels to their neighbors, and update the partition loads according to their assignments.
 
 1. Each vertex computes the score for each label based on loads and the labels from incoming neighbors. If a new partition has higher score, the vertex will try to migrate to the partition in next superstep. Otherwise, it does nothing.
-
 2. Interested vertices try to migrate according to the ratio of the vertices trying to migrate and the remaining capacity of the target partition. Vertices that succeed in the migration update the partition loads and communicate their labels to their neighbors.
 
 The algorithm keeps alternating the above two steps until it converges. Convergence is reached when the global score of the partitioning does not change for a number of times over a certain threshold.
@@ -59,6 +62,17 @@ The algorithm keeps alternating the above two steps until it converges. Converge
 ### K-Core
 
 The [k-core](en.wikipedia.org/wiki/K-core) of a graph is the subgraph in which all vertices have degree of at least k. The [Okapi](https://github.com/grafos-ml/okapi) library implements a k-core finding algorithm described in [Using Pregel-like Large Scale Graph Processing Frameworks for Social Network Analysis (ASONAM '12)](http://dl.acm.org/citation.cfm?id=2457085). The algorithm iteratively removes vertices with degrees less than k, and stops when there is no vertex to remove. At the end of the execution, the remaining graph represents the k-core. It is possible that the result is an empty graph.
+
+### Social Capital Value
+
+[This project](https://github.com/dhruv-shr/GASSocCAp) provides a Giraph implementation of the algorithm presented in [Social Capital: The Power of Influencers in Networks (AAMAS 2013)](http://systemg.research.ibm.com/papers/T3.3-social-capital-power-of-influencers.pdf) to compute the social capital values for nodes in social networks. 
+
+### Frequent Pattern Mining
+[This project](https://github.com/dhruv-sharma/distributed-fpm) provides a Giraph implementation of the [APriori algorithm](https://en.wikipedia.org/wiki/Apriori_algorithm) for frequent pattern mining. The [Spark MLlib](https://spark.apache.org/docs/latest/mllib-frequent-pattern-mining.html) implements some frequent pattern mining algorithms without using GraphX.
+
+### Facility Location 
+
+[This project](https://github.com/gvrkiran/giraph-facility-location) provides a Giraph implementation of the Facility Location Algorithm described in [Scalable Facility Location for Massive Graphs on Pregel-like Systems (CIKM 2015)](http://dl.acm.org/citation.cfm?id=2806508).
 
 <!--
 ### Jaccard
@@ -84,7 +98,7 @@ For the first superstep, each vertex creates an empty cluster and adds itself to
 
 ### BTG Computation
 
-[This project](https://github.com/dbs-leipzig/giraph-algorithms) provides a BSP implementation of the algorithm described in [BIIIG: Enabling Business Intelligence with Integrated Instance Graphs](http://dbs.uni-leipzig.de/de/publication/title/biiig), which extracts Business Transactions Graphs (BTGs) from an Integrated Instance Graph (IIG). An IIG contains nodes belonging to two different classes: master data and transactional data. A BTG is a sub-graph of an IIG which has only master data nodes as boundary nodes and transactional data nodes as inner nodes. In the business domain, a BTG describes a specific case inside a set of business cases involving master data like Employees, Customers and Products and transactional data like SalesOrders, ProductOffers or Purchases. 
+[This project](https://github.com/dbs-leipzig/giraph-algorithms) provides a Giraph implementation of the algorithm described in [BIIIG: Enabling Business Intelligence with Integrated Instance Graphs](http://dbs.uni-leipzig.de/de/publication/title/biiig), which extracts Business Transactions Graphs (BTGs) from an Integrated Instance Graph (IIG). An IIG contains nodes belonging to two different classes: master data and transactional data. A BTG is a sub-graph of an IIG which has only master data nodes as boundary nodes and transactional data nodes as inner nodes. In the business domain, a BTG describes a specific case inside a set of business cases involving master data like Employees, Customers and Products and transactional data like SalesOrders, ProductOffers or Purchases. 
 
 The algorithm finds all BTGs inside a given IIG. The idea is to find connected components by communicating the minimum vertex id inside a connected sub-graph and storing it. The minimum id inside a sub-graph is the BTG id. Only transactional data nodes are allowed to send ids, so the master data nodes work as a communication barrier between BTGs. The master data nodes receive messages from transactional data nodes out of BTGs in which they are involved. They store the minimum incoming BTG id by vertex id in a map and when the algorithm terminates, the set of unique values inside this map is the set of BTG ids the master data node is involved in.
 
@@ -92,7 +106,7 @@ The algorithm finds all BTGs inside a given IIG. The idea is to find connected c
 
 [Label Propagation](https://en.wikipedia.org/wiki/Label_Propagation_Algorithm) is used to detect communities inside a graph by propagating vertex labels (communities). Each vertex stores a unique id, a value (its label) and its outgoing edges. The label represents the community that the vertex belongs to. Vertices migrate to the community represented by the majority of labels sent by its neighbors.
 
-[The BSP implementation](https://github.com/dbs-leipzig/giraph-algorithms) of the algorithm can be sketched as follows. In superstep 0, each vertex propagates its initial value to its neighbors. In the remaining supersteps, each vertex will adopt the value of the majority of their neighbors or the smallest one if there is only one neighbor. If a vertex adopts a new value, it will propagate the new value to its neighbors. The computation will terminate if no new values are assigned or the maximum number of iterations is reached. The implementation adds a stabilization mechanism and avoids oscillating states.
+[The Giraph implementation](https://github.com/dbs-leipzig/giraph-algorithms) of the algorithm can be sketched as follows. In superstep 0, each vertex propagates its initial value to its neighbors. In the remaining supersteps, each vertex will adopt the value of the majority of their neighbors or the smallest one if there is only one neighbor. If a vertex adopts a new value, it will propagate the new value to its neighbors. The computation will terminate if no new values are assigned or the maximum number of iterations is reached. The implementation adds a stabilization mechanism and avoids oscillating states.
 
 ### Adaptive Repartitoning
 
@@ -112,23 +126,30 @@ Based on the information about their neighbors, each vertex calculates its desir
 
 Based on the information of the first phase, the algorithm will calculate which vertices are allowed to migrate in their desired partition. If a vertex migrates to another partition it notifies the new and old CA.
 
-The computation will terminate if no vertex wants to migrate, the maximum number of iterations (configurable) is reached or each vertex reaches the maximum number of partition switches (configurable).
+The computation will terminate if no vertex wants to migrate, the maximum number of iterations (configurable) is reached or each vertex reaches the maximum number of partition switches (configurable). 
 
+### Community Detection
+
+[This project](https://github.com/pramodschavan/BigDataInfrastructure-Project) implements Girvan-Newman's [community detection algorithm](https://en.wikipedia.org/wiki/Girvan–Newman_algorithm) in Giraph.
+
+### Graph Isomorphism
+
+[This project](https://github.com/nosrepus/giraph-graph-isomorphism) implements a brute-force graph isomorphism algorithm in Giraph.
 
 ### Travelling Salesman Problem
 
-
 [This project](https://github.com/edaboussi/Giraph) provides a brute-force Giraph algorithm for the [Travelling Salesman Problem](https://en.wikipedia.org/wiki/Travelling_salesman_problem).
 
-### Distributed Diffusive Clustering
+### Diffusive Clustering
 
 [This project](https://github.com/galpha/giraph-didic) implements the [Distributed Diffusive Clustering Algorithm](http:// parco.iti.kit.edu/henningm/data/distribClust.pdf) in Giraph.
 
-### Distributed Minimum Spanning Tree
+### Minimum Spanning Tree
 
-[This paper](http://ilpubs.stanford.edu:8090/1077/3/p535-salihoglu.pdf) describes a DMST algorithm in Giraph. However, the algorithm needs mater computation, global aggregators and mutation of graph. It is not likely to implement the algorithm in Spark Pregel.
+[This paper](http://ilpubs.stanford.edu:8090/1077/3/p535-salihoglu.pdf) describes a distributed MST algorithm on top of the GPS framework. However, the algorithm needs mater computation, global aggregators and mutation of graph. It is not easy to implement the algorithm in Spark Pregel.
 
-## Materials and References
+Materials and references
+---
 
 1. Malewicz, Grzegorz, et al. *[Pregel: a system for large-scale graph processing.](https://www.researchgate.net/profile/James_Dehnert/publication/221257383_Pregel_A_system_for_large-scale_graph_processing/links/00b7d537c615821fa4000000.pdf)* ACM SIGMOD 2010. ([digest](https://gist.github.com/shagunsodhani/af9677bdc79bb34be698))
 1. Xin, Reynold S., et al. [GraphX: Unifying data-parallel and graph-parallel analytics.](http://arxiv.org/pdf/1402.2394) arXiv preprint (2014). ([digest](https://gist.github.com/shagunsodhani/c72bc1928aeef40280c9))
@@ -138,5 +159,5 @@ The computation will terminate if no vertex wants to migrate, the maximum number
 1. Zhang, Hao, et al. [In-memory big data management and processing: A survey.](http://ieeexplore.ieee.org/iel7/69/7116676/07097722.pdf?arnumber=7097722) IEEE Transactions on Knowledge and Data Engineering 2015.
 1. Han, Minyang, et al. *[An experimental comparison of pregel-like graph processing systems.](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.637.1252&rep=rep1&type=pdf)* PVLDB 2014.
 1. Salihoglu, Semih, et al. *[Optimizing graph algorithms on pregel-like systems.](http://ilpubs.stanford.edu:8090/1077/3/p535-salihoglu.pdf)* PVLDB 2014.
-1. McCune, Robert R., et al. *[Thinking like a vertex: a survey of vertex-centric frameworks for large-scale distributed graph processing.](http://arxiv.org/pdf/1507.04405)* ACM Computing Surveys 2015.
+1. McCune, Robert R., et al. *[Thinking like a vertex: a survey of vertex-centric frameworks for large-scale distributed graph processing.](http://arxiv.org/pdf/1507.04405)* ACM CSUR 2015.
 1. Yan, Da, et al. *[Pregel algorithms for graph connectivity problems with performance guarantees.](http://www.cse.cuhk.edu.hk/pregelplus/papers/ppa.pdf)* PVLDB 2014.
