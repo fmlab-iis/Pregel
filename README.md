@@ -65,14 +65,14 @@ The [k-core](en.wikipedia.org/wiki/K-core) of a graph is the subgraph in which a
 
 ### Social Capital Value
 
-[This project](https://github.com/dhruv-shr/GASSocCAp) provides a Giraph implementation of the algorithm presented in [Social Capital: The Power of Influencers in Networks (AAMAS 2013)](http://systemg.research.ibm.com/papers/T3.3-social-capital-power-of-influencers.pdf) to compute the social capital values for nodes in social networks. 
+[This project](https://github.com/dhruv-shr/GASSocCAp) provides a Giraph implementation of the algorithm presented in [Social Capital: The Power of Influencers in Networks (AAMAS'13)](http://systemg.research.ibm.com/papers/T3.3-social-capital-power-of-influencers.pdf) to compute the social capital values for nodes in social networks. 
 
 ### Frequent Pattern Mining
 [This project](https://github.com/dhruv-sharma/distributed-fpm) provides a Giraph implementation of the [APriori algorithm](https://en.wikipedia.org/wiki/Apriori_algorithm) for frequent pattern mining. The [Spark MLlib](https://spark.apache.org/docs/latest/mllib-frequent-pattern-mining.html) implements some frequent pattern mining algorithms without using GraphX.
 
 ### Facility Location 
 
-[This project](https://github.com/gvrkiran/giraph-facility-location) provides a Giraph implementation of the Facility Location Algorithm described in [Scalable Facility Location for Massive Graphs on Pregel-like Systems (CIKM 2015)](http://dl.acm.org/citation.cfm?id=2806508).
+[This project](https://github.com/gvrkiran/giraph-facility-location) provides a Giraph implementation of the Facility Location Algorithm described in [Scalable Facility Location for Massive Graphs on Pregel-like Systems (CIKM'15)](http://dl.acm.org/citation.cfm?id=2806508).
 
 <!--
 ### Jaccard
