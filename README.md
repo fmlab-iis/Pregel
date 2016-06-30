@@ -74,6 +74,10 @@ The [k-core](en.wikipedia.org/wiki/K-core) of a graph is the subgraph in which a
 
 [This project](https://github.com/gvrkiran/giraph-facility-location) provides a Giraph implementation of the Facility Location Algorithm described in [Scalable Facility Location for Massive Graphs on Pregel-like Systems (CIKM'15)](http://dl.acm.org/citation.cfm?id=2806508).
 
+### Graph Drawing 
+
+[This project](https://github.com/EngAAlex/GiLA) implements a [distributed force-directed algorithm](https://en.wikipedia.org/wiki/Force-directed_graph_drawing) in Giraph. The algorithm is described in [A Distributed Force-Directed Algorithm on Giraph](https://arxiv.org/pdf/1606.02162v1.pdf).
+
 <!--
 ### Jaccard
 
