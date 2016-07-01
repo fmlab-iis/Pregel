@@ -37,6 +37,11 @@ The [Okapi](https://github.com/grafos-ml/okapi) library implements a parallel ve
 
 The [assignment problem](http://en.wikipedia.org/wiki/Assignment_problem) is concerned with finding a maximum matching in a weighted bipartite graph. [This project](https://github.com/cloudera/matching) implements Bertsekas' [auction algorithm](https://en.wikipedia.org/wiki/Auction_algorithm) for the assignment problem on top of Giraph.
 
+
+### Connected Components
+
+The appendix of [Pregel Algorithms for Graph Connectivity Problems with Performance Guarantees (VLDB'14)](http://www.cse.cuhk.edu.hk/pregelplus/papers/ppa.pdf) describes a Pregel implementation of the [Shiloach-Vishkin algorithm](http://www.cs.cmu.edu/~scandal/alg/connectivity.html) that finds connected components in a graph.
+
 ### Graph Partitioning
 
 The [Okapi](https://github.com/grafos-ml/okapi) library implements the [Spinner graph partitioning algorithm](http://arxiv.org/abs/1404.3861), which computes an edge-based balanced k-way partitioning of a graph. Spinner splits the vertices across k partitions, trying to maximize _locality_ and _balancing_. The former means that vertices that are connected through an edge tend to be assigned to the same partition. The latter means that a similar number of edges is assigned to each partition. The partitioning produced by Spinner can be used to minimize network communication and maximize load balance for distributed computation frameworks.
@@ -155,13 +160,13 @@ The computation will terminate if no vertex wants to migrate, the maximum number
 Materials and references
 ---
 
-1. Malewicz, Grzegorz, et al. *[Pregel: a system for large-scale graph processing.](https://www.researchgate.net/profile/James_Dehnert/publication/221257383_Pregel_A_system_for_large-scale_graph_processing/links/00b7d537c615821fa4000000.pdf)* ACM SIGMOD 2010. ([digest](https://gist.github.com/shagunsodhani/af9677bdc79bb34be698))
+1. Malewicz, Grzegorz, et al. [Pregel: a system for large-scale graph processing.](https://www.researchgate.net/profile/James_Dehnert/publication/221257383_Pregel_A_system_for_large-scale_graph_processing/links/00b7d537c615821fa4000000.pdf) ACM SIGMOD 2010. ([digest](https://gist.github.com/shagunsodhani/af9677bdc79bb34be698))
 1. Xin, Reynold S., et al. [GraphX: Unifying data-parallel and graph-parallel analytics.](http://arxiv.org/pdf/1402.2394) arXiv preprint (2014). ([digest](https://gist.github.com/shagunsodhani/c72bc1928aeef40280c9))
-1. Gonzalez, Joseph E., et al. *[Graphx: Graph processing in a distributed dataflow framework.](https://www.usenix.org/system/files/conference/osdi14/osdi14-paper-gonzalez.pdf)* OSDI 2014.
-1. Avery Ching. *Giraph: Large-scale graph processing infrastructure on hadoop.* Proceedings of the Hadoop Summit 2011.
-1. Ching, Sergey E., et al. *[One Trillion Edges: Graph Processing at Facebook-Scale.](http://www.vldb.org/pvldb/vol8/p1804-ching.pdf)* PVLDB 2015.
+1. Gonzalez, Joseph E., et al. [Graphx: Graph processing in a distributed dataflow framework.](https://www.usenix.org/system/files/conference/osdi14/osdi14-paper-gonzalez.pdf) OSDI 2014.
+1. Avery Ching. Giraph: Large-scale graph processing infrastructure on hadoop. Proceedings of the Hadoop Summit 2011.
+1. Ching, Sergey E., et al. [One Trillion Edges: Graph Processing at Facebook-Scale.](http://www.vldb.org/pvldb/vol8/p1804-ching.pdf) PVLDB 2015.
 1. Zhang, Hao, et al. [In-memory big data management and processing: A survey.](http://ieeexplore.ieee.org/iel7/69/7116676/07097722.pdf?arnumber=7097722) IEEE Transactions on Knowledge and Data Engineering 2015.
-1. Han, Minyang, et al. *[An experimental comparison of pregel-like graph processing systems.](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.637.1252&rep=rep1&type=pdf)* PVLDB 2014.
-1. Salihoglu, Semih, et al. *[Optimizing graph algorithms on pregel-like systems.](http://ilpubs.stanford.edu:8090/1077/3/p535-salihoglu.pdf)* PVLDB 2014.
-1. McCune, Robert R., et al. *[Thinking like a vertex: a survey of vertex-centric frameworks for large-scale distributed graph processing.](http://arxiv.org/pdf/1507.04405)* ACM CSUR 2015.
-1. Yan, Da, et al. *[Pregel algorithms for graph connectivity problems with performance guarantees.](http://www.cse.cuhk.edu.hk/pregelplus/papers/ppa.pdf)* PVLDB 2014.
+1. Han, Minyang, et al. [An experimental comparison of pregel-like graph processing systems.](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.637.1252&rep=rep1&type=pdf) PVLDB 2014.
+1. Salihoglu, Semih, et al. [Optimizing graph algorithms on pregel-like systems.](http://ilpubs.stanford.edu:8090/1077/3/p535-salihoglu.pdf) PVLDB 2014.
+1. McCune, Robert R., et al. [Thinking like a vertex: a survey of vertex-centric frameworks for large-scale distributed graph processing.](http://arxiv.org/pdf/1507.04405) ACM CSUR 2015.
+1. Yan, Da, et al. [Pregel algorithms for graph connectivity problems with performance guarantees.](http://www.cse.cuhk.edu.hk/pregelplus/papers/ppa.pdf) PVLDB 2014.
