@@ -8,30 +8,7 @@ This repository collects examples for Pregel-like graph processing frameworks.
 
 Given a weighted undirected graph with integer capacity b(v) assigned to each vertex v, the *Maximum B-matching Problem* is to select a subgraph of maximum weight such that the degree of each vertex in the subgraph does not exceed its capacity. A greedy algorithm described in [Social Content Matching in MapReduce (PVLDB'11)](http://www.vldb.org/pvldb/vol4/p460-morales.pdf) provides a 1/2-approximation guarantee for this problem.
 
-The [Okapi](https://github.com/grafos-ml/okapi) library implements a parallel version of the above algorithm in Giraph. The computation works as follows. Each vertex v maintains a capacity c(v), which is b(v) in the beginning. At each superstep, each vertex v i) proposes its c(v) edges with maximum weight to its neighbors, and ii) computes the intersection between its own proposals and the proposals of its neighbors from the last superstep. The size of this intersection is subtracted from the capacity c(v). If c(v) becomes zero, vertex v is removed from the graph. A pseudo-code describing the algorithm is given below.
-        
-        Let E_0 be the edges of the input graph
-        Let V_0 be the vertices of the input graph
-        Let c_0(v) := b(v) for each v ∈ V_0        
-        M := {}
-        k := 0
-        while E_k is nonempty do
-          for all v ∈ V_k in parallel do
-            Let L_k(v) be the c_k(v) heaviest edges incident to v in E_k
-            Let U be the union of the sets in { L_k(u) : (v,u) ∈ E_k }
-            F := L_k(v) ∩ U
-            M := M ∪ F
-            c_{k+1}(v) := c_k(v) − |F|
-            If c_{k+1}(v) = 0
-              V_{k+1} := V_k / {v}
-              E_{k+1} := E_k / {all edges incident to v in E_k}
-            else
-              V_{k+1} := V_k
-              E_{k+1} := E_k / F            
-          end
-          k := k + 1
-        end
-        return M
+The [Okapi](https://github.com/grafos-ml/okapi) library implements a parallel version of the above algorithm in Giraph. The computation works as follows. Each vertex v maintains a capacity c(v), which is b(v) in the beginning. At each superstep, each vertex v i) proposes its c(v) edges with maximum weight to its neighbors, and ii) computes the intersection between its own proposals and the proposals of its neighbors from the last superstep. The size of this intersection is subtracted from the capacity c(v). If c(v) becomes zero, vertex v is removed from the graph.
         
 ### Assignment Problem
 
