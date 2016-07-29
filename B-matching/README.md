@@ -57,27 +57,6 @@ Since edges do have property, we set an `Int` property to the edges in order to 
 
 So, our final graph will have the type `Graph`[`(Int, Set[Edge[Int]], Set[Edge[Int]])`, `Int`]. 
 
-Below is the code to generate the graph.
-
-    // Create an RDD for vertices
-	val vertices: RDD[(VertexId, (Int, Set[Edge[Int]], Set[Edge[Int]]))] =
-      sc.parallelize(Array(
-      	(1L, (3, Set(Edge(1L, 5L, 3),Edge(1L, 4L, 2),Edge(1L, 3L, 1)), Set[Edge[Int]]())),
-        (2L, (2, Set(Edge(2L, 5L, 5),Edge(2L, 3L, 6)), Set[Edge[Int]]())),
-        (3L, (2, Set(Edge(2L, 3L, 6),Edge(3L, 4L, 100)), Set[Edge[Int]]())),
-        (4L, (1, Set(Edge(3L, 4L, 100)), Set[Edge[Int]]())),
-        (5L, (1, Set(Edge(2L, 5L, 5)), Set[Edge[Int]]()))))
-
-    // Create an RDD for edges
-    val relationships: RDD[Edge[Int]] =
-      sc.parallelize(Array(
-      	Edge(1L, 5L, 3), Edge(1L, 4L, 2),
-        Edge(2L, 5L, 5), Edge(1L, 3L, 1),
-        Edge(2L, 3L, 6), Edge(3L, 4L, 100)))
-
-    // Create the graph
-    val graph = Graph(vertices, relationships)
-
 
 
 ####Pregel Design
@@ -138,6 +117,5 @@ Below is the code to generate the graph.
 ![Result in graph](http://i.imgur.com/APV3St4.png)
 
 Since the GreedyMR Algorithm is desgined to compute parallelly, Pregel works apparently. 
-
 
 
