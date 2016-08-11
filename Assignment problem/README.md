@@ -39,7 +39,7 @@ iteration : C/e e=constant
 vprog : (VertexId, VD, A) ⇒ VD
   case PersonVD:
     if(status == 0){
-      if(A._1 == -1)//own nothing
+      if(A._1 == -1)
         return PersonVD(-1, 0, 1)
       else{
         return PersonVD(A._1, 0, 1)
@@ -72,10 +72,12 @@ vprog : (VertexId, VD, A) ⇒ VD
      else if(PersonVD.status == 2){
           PersonVD send A(PersonVD.VertexId, bid, -3) to ObjectVD.VertexId == assignObj
           PersonVD send A(0, 0, -1) to itself
+      //Bidding Phase2    
      }else{
            if(PersonVD.VertexId == ObjectVD.ownerId) send(ObjectVD.VertexId, 0, -2) to PersonVD
            else Iterator.empty
            PersonVD send A(-1, 0, -2) to itself
+      //Assignment Phase
 
      }
 ```
@@ -84,15 +86,17 @@ vprog : (VertexId, VD, A) ⇒ VD
 'mergemsg' :(A, A) ⇒ A
      if(A._3 == -3){
          Find MAX A._2, return A(PersonVD.VertexId, A._2, 1)
+      //Highest Bid
      }
      if(A._3 == -1){
-         //empty msg
          return A(0 ,0 ,-1)
+      //Empty message
      }
-          if(A._3 == -2){
+      if(A._3 == -2){
          Find A._1 MAX return A(A._1 max, 0, -2)
+      //Assignment 
      }else{
          Find A(best object’s VertexId, best object’s price, second best object’s price )
-
+      //Decide bid
      }
 ```
