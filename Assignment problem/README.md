@@ -17,6 +17,7 @@ Find an one-to-one relationship to make the benefit MAX.
 >The person who was originally assigned to this object would leave without an object.
 
 >Terminate:
+>
 >a.the auction terminates in a finite number of iterations, with all persons almost happy, before every object receives a bid
 >b.the auction continues until, after a finite number of rounds, all objects receive at least one bid, at which time the auction terminates.
 
