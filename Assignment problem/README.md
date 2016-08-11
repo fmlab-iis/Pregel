@@ -57,7 +57,7 @@ vprog : (VertexId, VD, A) ⇒ VD
      return ObjectVD(A._1, A._2)
 ```
 ```
-'sendmsg' :(EdgeTriplet[VD, ED]) ⇒ Iterator[(VertexId, A)]
+sendmsg :(EdgeTriplet[VD, ED]) ⇒ Iterator[(VertexId, A)]
      if(PersonVD.status == 1){
           if(PersonVD.assignObj == -1){
           //Not assign
@@ -83,7 +83,7 @@ vprog : (VertexId, VD, A) ⇒ VD
 ```
 
 ```
-'mergemsg' :(A, A) ⇒ A
+mergemsg :(A, A) ⇒ A
      if(A._3 == -3){
          Find MAX A._2, return A(PersonVD.VertexId, A._2, 1)
       //Highest Bid
