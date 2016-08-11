@@ -35,7 +35,8 @@ ObjectVD  : owner(VertexID), price(Double)
 initialMsg : A(-1L ,0 ,0 )
 
 iteration : C/e e=constant
-'vprog' : (VertexId, VD, A) ⇒ VD
+```
+vprog : (VertexId, VD, A) ⇒ VD
   case PersonVD:
     if(status == 0){
       if(A._1 == -1)//own nothing
@@ -54,7 +55,8 @@ iteration : C/e e=constant
 
   case ObjectVD:
      return ObjectVD(A._1, A._2)
-
+```
+```
 'sendmsg' :(EdgeTriplet[VD, ED]) ⇒ Iterator[(VertexId, A)]
      if(PersonVD.status == 1){
           if(PersonVD.assignObj == -1){
@@ -76,7 +78,9 @@ iteration : C/e e=constant
            PersonVD send A(-1, 0, -2) to itself
 
      }
+```
 
+```
 'mergemsg' :(A, A) ⇒ A
      if(A._3 == -3){
          Find MAX A._2, return A(PersonVD.VertexId, A._2, 1)
@@ -91,3 +95,4 @@ iteration : C/e e=constant
          Find A(best object’s VertexId, best object’s price, second best object’s price )
 
      }
+```
