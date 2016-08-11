@@ -9,7 +9,9 @@ Find an one-to-one relationship to make the benefit MAX.
 
 ### Bidding Phase
 >set of unassigned person = I, i belong to I, i determines an object ji (BEST VALUE)
+>
 >Submit a bid : pj+yi  ( yi=vi - wi + e, vi : best object ; wi : second best object ; e < 1/n )
+>
 >Every unassigned person send bid to its best object.
 
 ### Assignment Phase
@@ -19,6 +21,7 @@ Find an one-to-one relationship to make the benefit MAX.
 >Terminate:
 >
 >a.the auction terminates in a finite number of iterations, with all persons almost happy, before every object receives a bid
+>
 >b.the auction continues until, after a finite number of rounds, all objects receive at least one bid, at which time the auction terminates.
 
 ***
