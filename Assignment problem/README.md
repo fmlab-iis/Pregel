@@ -7,17 +7,18 @@ Find an one-to-one relationship to make the benefit MAX.
 
 ## Algorithm Pseudo Code
 
-Bidding Phase
-set of unassigned person = I, i belong to I, i determines an object ji (BEST VALUE)
-Submit a bid : pj+yi  ( yi=vi - wi + e, vi : best object ; wi : second best object ; e < 1/n )
-Every unassigned person send bid to its best object.
+### Bidding Phase
+>set of unassigned person = I, i belong to I, i determines an object ji (BEST VALUE)
+>Submit a bid : pj+yi  ( yi=vi - wi + e, vi : best object ; wi : second best object ; e < 1/n )
+>Every unassigned person send bid to its best object.
 
-Assignment Phase
-Every object find the largest bid and assigned itself to that person and increase its price to highest bid. The person who was originally assigned to this object would leave without an object.
+### Assignment Phase
+>Every object find the largest bid and assigned itself to that person and increase its price to highest bid. 
+>The person who was originally assigned to this object would leave without an object.
 
-Terminate:
-a.the auction terminates in a finite number of iterations, with all persons almost happy, before every object receives a bid
-b.the auction continues until, after a finite number of rounds, all objects receive at least one bid, at which time the auction terminates.
+>Terminate:
+>a.the auction terminates in a finite number of iterations, with all persons almost happy, before every object receives a bid
+>b.the auction continues until, after a finite number of rounds, all objects receive at least one bid, at which time the auction terminates.
 
 ***
 
