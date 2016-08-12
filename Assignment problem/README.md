@@ -29,7 +29,8 @@ Find an one-to-one relationship to make the benefit MAX.
 ## Pregel Implementation
 
 
-PerssonVD: assignObj(VertexId), bid(Double), status(int)  ObjectVD  : owner(VertexID), price(Double)
+* PerssonVD: assignObj(VertexId), bid(Double), status(int) 
+* ObjectVD  : owner(VertexID), price(Double)
 
 initialMsg : A(-1L ,0 ,0 )
 
