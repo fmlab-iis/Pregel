@@ -22,8 +22,9 @@ The k-core of a graph is the subgraph in which all vertices have degree of at le
 			      //只要一個點所剩的邊數小於K 則此點的attr設為    零 視為已被刪除
 		      else if (degree <= 0) -1
 		      //停止對dttr 減去msgDegree
-		      //因為每回合會減去被刪除的邊 所以用-1紀錄已經被刪 過的邊
-		      else degree
+		      
+                      //他已經被減為0了，但是有被減的情況下不能算在當回合被刪除的邊,所以用-1紀錄
+                      else degree
 		    }
 
 `send message`:  send the message that the the edge was deleted
