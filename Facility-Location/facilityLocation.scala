@@ -4,9 +4,6 @@ import org.apache.spark._
 import org.apache.spark.rdd.RDD
 
 import scala.io._
-import java.io._
-import java.lang.ArrayIndexOutOfBoundsException
-
 import org.w3c.dom.Attr
 
 import scala.collection.JavaConverters._
@@ -17,14 +14,14 @@ object facilityLocation {
     val sc = new SparkContext(conf)
 
     val vertex: RDD[(VertexId, (Int, Int, Int))] = sc.parallelize(
-        Array((1L, (0, 20, 1)),
+        Array((1L, (0, 20, 1)),//unopen,cost,tag
               (2L, (0, 11, 1)),
-              (3L, (0, 0, 1)),
+              (3L, (0, 0, 1)),//unfrozen=0,frozen!=0
               (4L, (0, 0, 1)),
               (5L, (0, 0, 1)),
               (6L, (0, 0, 1))))
     val edge: RDD[Edge[Int]] = sc.parallelize(
-        Array(Edge(1, 3, 10),
+        Array(Edge(1, 3, 10),//facility is src
               Edge(1, 4, 3),
               Edge(1, 5, 2),
               Edge(1, 6, 3),
@@ -34,7 +31,8 @@ object facilityLocation {
               Edge(2, 6, 5)))
     //val V: RDD[Verte1xId,(String,String)]=sc.parallelize(Array((1L,("ddf","jio")),(2L,("ddf","jio")),(3L,("ddf","jio")),(4L,("ddf","jio")),(5L,("ddf","jio")),(6L,("ddf","jio"))))
     val graph = Graph(vertex, edge)
-    var radius = 1
+   // val accum = sc.longAccumulator("My Accumulator")
+    var radius =1
     val ep = 1
 
     def vertexProgram(id: VertexId,
@@ -45,7 +43,7 @@ object facilityLocation {
         radius += ep
         return (attr._1, attr._2, 2) //the third is the tag of phases
       } else if (attr._3 == 2) {
-        //Message is radius - dist
+        //Message is sigma (radius - dist)
         //open the facility
         if (msg <= attr._2 && attr._1 == 0 && attr._2 != 0) { //attr._2 != 0 make sure the node is not client
                                                               //attr._2 of facility is cost, attr._1==zero means unopen
@@ -58,7 +56,7 @@ object facilityLocation {
         //frozen the client
         //the message is a bool indicate whether client is frozened
         if (attr._2 == 0 && attr._1==0 && msg != 0) { // the attr._2 of client is always zero
-                                                      //attr._1==0 means the client is unfrozen
+                                                      //attr._1==0 means the client is unfrozen //msg!=0 frozen
           return (radius, attr._2, 1) // record the current dist in first parameter
         } else {
           return (attr._1, attr._2, 1)//do nothing
@@ -71,17 +69,17 @@ object facilityLocation {
       if (edge.srcAttr._3 == 1) {
         //msg is nothing
         Iterator((edge.srcId, 0))
-      } else if (edge.srcAttr._3 == 2) {
+      } else if (edge.srcAttr._3 == 2) {//phase2
         //message is radius - dist
         if(edge.srcAttr._1 == 0){ //if unopen
         val the_msg =
           if ((radius - edge.attr) > 0) radius - edge.attr else 0
             Iterator((edge.srcId, the_msg))
         }
-        else Iterator.empty //if open
+        else Iterator.empty //if facility is open, 送一個意意的訊息 防止邊死掉
       } else { // third phase
         //message is a bool
-        if (edge.srcAttr._1 == 1) { //if facility is open, frozen the client, else Iterator itself
+        if (edge.srcAttr._1 == 1 && edge.attr < radius) { //if facility is open, frozen the client, else Iterator itself
           Iterator((edge.dstId, 1))//msg is a tag to identify frozened
         } else {
           Iterator.empty

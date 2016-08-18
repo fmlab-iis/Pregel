@@ -13,11 +13,18 @@ The k-core of a graph is the subgraph in which all vertices have degree of at le
 	until No nodes deleted in previous superstep
 
 `vprog`: each vertex attribute minus msgDgree
-
+// 每一個vertex的attr為該個點的degree
+//msgDegree為當回合對於該點所被刪去的邊的數目
+//當回合若一個vertex的degree被刪除光了 則attr歸零
+//為了防止邊的重複刪除 ，下回合起 vertex的degree 固定為-1
+              
+               
 	vertexProgram(id: VertexId, attr: Int, msgDegree: Int): Int = {
+	
 		      val degree = attr - msgDegree
-		      //degree為每個點要被刪去的邊數 
+		      //degree為每個點被刪去的邊數 
 		      //attr為原來每個點所連的邊數
+		      //只要一個點的degree(attr）小於K 及刪除點
 		      if (degree > 0 && degree < coreNumber) 0
 			      //只要一個點所剩的邊數小於K 則此點的attr設為    零 視為已被刪除
 		      else if (degree <= 0) -1
@@ -28,6 +35,7 @@ The k-core of a graph is the subgraph in which all vertices have degree of at le
 		    }
 
 `send message`:  send the message that the the edge was deleted
+//因為Pregel api無法刪除邊，所以只要一個點被刪除的編輯視為已被刪除，並送出message "1" 紀錄
 	
 	//Message record whether the edge of vetex is deleted
     //if the edge has only one vertex ,regarding it was      //deleted
@@ -48,3 +56,4 @@ The k-core of a graph is the subgraph in which all vertices have degree of at le
 	 messageCombiner(a: Int, b: Int): Int = {a + b}
 	                //count how much edges was deleted
                     //將全部要被減去的邊的數目加起來
+
