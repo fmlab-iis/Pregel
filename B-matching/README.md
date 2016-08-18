@@ -49,13 +49,13 @@ We are given an undirected bipartite graph `G = (T,C,E)`.
 ***
 
 ![mineInitialGraph](http://i.imgur.com/MVrCr2M.png)
-We model the vertices to have property of type (`Int`, `Set[Edge[Int]]`, `Set[Edge[Int]]`) which store the value of `capacity`, `Lv`, `M`.
+We model the vertices to have property of type (`Int`, `Set[Edge[Int]]`, `Set[Edge[Int]]`, `Set[Edge[Int]]`) which store the value of `capacity`, `Candidate Edges`, `Lv`, `M`.
 
 ( Let `Lv` be the set of edges incident to `v` with maximum weight, `M` be the picked Edges.) 
 
 Since edges do have property, we set an `Int` property to the edges in order to store the weight. 
 
-So, our final graph will have the type `Graph`[`(Int, Set[Edge[Int]], Set[Edge[Int]])`, `Int`]. 
+So, our final graph will have the type `Graph`[`(Int, Set[Edge[Int]], Set[Edge[Int]], Set[Edge[Int]])`, `Int`]. 
 
 
 
@@ -63,48 +63,74 @@ So, our final graph will have the type `Graph`[`(Int, Set[Edge[Int]], Set[Edge[I
 
 ***
 
-`initialMsg` : A empty set of edges.
+
+`initialMsg` : 
+
+	Set((Set[Edge[Int]](), 0))
 
 `vprog` : 
 
-	Input  (vertexId: VertexId, vertexAttr: (Int, Set[Edge[Int]], Set[Edge[Int]]), message: Set[Edge[Int]])
-	Output (Int, Set[Edge[Int]], Set[Edge[Int]])
-	
-	if (Capacity equals 0 || message received is null) {
-      return (vertexAttr)
-    }
-    else {
-      intersection = message ∩ vertexAttr._2
-      return (vertexAttr._1 - intersection.size, 
-      value._2 / intersection, value._3 ∪ intersection)
-    }
+      def vprog(vertexId: VertexId, value: (Int, Set[Edge[Int]], Set[Edge[Int]], Set[Edge[Int]]), message: Set[(Set[Edge[Int]], Int)]): (Int, Set[Edge[Int]], Set[Edge[Int]], Set[Edge[Int]]) = {
+        var newValue_1 = value._1
+        var newValue_2 = value._2
+        var newValue_3 = value._3
+        var newValue_4 = value._4
+        var neededCandidateNum = 0
 
-		
+        for (op <- message) op._2 match{
+          case 0 => {
+            neededCandidateNum = value._1 - value._3.size
+            newValue_3 = value._3 ++ value._2.toSeq.sortWith(_.attr > _.attr).take(neededCandidateNum).toSet
+            newValue_2 = value._2 -- newValue_3
+          }
+          case 1 => {
+            //println("ID => "+vertexId+" received "+op._1)
+            newValue_1 = newValue_1 - 1
+            newValue_3 = newValue_3 -- op._1
+            newValue_4 = newValue_4 ++ op._1
+          }
+          case 2 => {
+            newValue_2 = newValue_2 -- op._1
+            newValue_3 = newValue_3 -- op._1
+
+            neededCandidateNum = value._1 - value._3.size
+            if(neededCandidateNum > 0){
+              newValue_3 = newValue_3 ++ value._2.toSeq.sortWith(_.attr > _.attr).take(neededCandidateNum).toSet
+              newValue_2 = newValue_2 -- newValue_3
+            }
+          }
+          case 3 => {
+            neededCandidateNum = value._1 - value._3.size
+            if(neededCandidateNum > 0){
+              newValue_3 = value._3 ++ value._2.toSeq.sortWith(_.attr > _.attr).take(neededCandidateNum).toSet
+              newValue_2 = value._2 -- newValue_3
+              newValue_4 = value._4
+            }
+          }
 
 
 `sendMsg` :
 
 
-	Input  (triplet: EdgeTriplet[(Int, Set[Edge[Int]], Set[Edge[Int]]), Int])
-	Output (Iterator[(VertexId, Set[Edge[Int]])])
-
-    if (Source vertex capacity || Destination vertex capacity == 0)
-      Iterator.empty
-    else {
-      val set_s = triplet.srcAttr._2
-      val set_d = triplet.dstAttr._2
-      
-      //Sends two ways
-      Iterator ((triplet.dstId, set_s), (triplet.srcId, set_d) )
-     }
+        if(triplet.srcAttr._2(self) || triplet.srcAttr._3(self) || triplet.dstAttr._2(self) || triplet.dstAttr._3(self)){
+            if(triplet.srcAttr._1 == 0 || triplet.dstAttr._1 == 0){
+              val tmp: Set[(Set[Edge[Int]], Int)] = Set((Set(self),2))
+              return Iterator((triplet.dstId, tmp), (triplet.srcId, tmp))
+            }
+            if(triplet.srcAttr._3(self) && triplet.dstAttr._3(self)){
+              val tmp: Set[(Set[Edge[Int]], Int)] = Set((Set(self),1))
+              return Iterator((triplet.dstId, tmp), (triplet.srcId, tmp))
+            }
+        }else{
+          val tmp: Set[(Set[Edge[Int]], Int)] = Set((Set(self),3))
+          return Iterator((triplet.dstId, tmp), (triplet.srcId, tmp))
+        }
 
 
 `mergeMsg` :
 
-	Input  (msg1: Set[Edge[Int]], msg2: Set[Edge[Int]])
-	Output (Set[Edge[Int]])
-
-	return msg1 ∪ msg2
+	if (msg1 == null && msg2 == null) null
+        else  msg1.union(msg2)
     
 
 #### Result
