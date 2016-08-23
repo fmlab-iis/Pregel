@@ -11,6 +11,9 @@ The k-core of a graph is the subgraph in which all vertices have degree of at le
 	     end if
 	  end
 	until No nodes deleted in previous superstep
+	
+	`轉換成graphx中的pregel實做: `
+在graphx中的pregel API 是以邊為單位逐一造訪，為了做出如論文中pseudo code的實做，在逐一檢查邊的時候，同時檢查邊所屬的兩點是否符合K-core的條件，只要不符合及刪除該點，在刪除點的同時，所屬的邊也同時刪出，但是在graphx的pregel API 中，無法刪除邊，所以為了我將只要任何一個點被刪除的邊都判斷為已被刪除。之後每個回不斷把點刪除，直到沒有可以刪除的點為止。
 
 `vprog`: each vertex attribute minus msgDgree
 // 每一個vertex的attr為該個點的degree
