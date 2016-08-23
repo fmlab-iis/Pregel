@@ -32,7 +32,7 @@ object facilityLocation {
     //val V: RDD[Verte1xId,(String,String)]=sc.parallelize(Array((1L,("ddf","jio")),(2L,("ddf","jio")),(3L,("ddf","jio")),(4L,("ddf","jio")),(5L,("ddf","jio")),(6L,("ddf","jio"))))
     val graph = Graph(vertex, edge)
    // val accum = sc.longAccumulator("My Accumulator")
-    var radius =1
+    var radius =sc.accumulator(1)
     val ep = 1
 
     def vertexProgram(id: VertexId,
@@ -57,7 +57,7 @@ object facilityLocation {
         //the message is a bool indicate whether client is frozened
         if (attr._2 == 0 && attr._1==0 && msg != 0) { // the attr._2 of client is always zero
                                                       //attr._1==0 means the client is unfrozen //msg!=0 frozen
-          return (radius, attr._2, 1) // record the current dist in first parameter
+          return (radius.localValue, attr._2, 1) // record the current dist in first parameter
         } else {
           return (attr._1, attr._2, 1)//do nothing
         }
@@ -73,13 +73,13 @@ object facilityLocation {
         //message is radius - dist
         if(edge.srcAttr._1 == 0){ //if unopen
         val the_msg =
-          if ((radius - edge.attr) > 0) radius - edge.attr else 0
+          if ((radius.localValue - edge.attr) > 0) radius.localValue - edge.attr else 0
             Iterator((edge.srcId, the_msg))
         }
         else Iterator.empty //if facility is open, 送一個意意的訊息 防止邊死掉
       } else { // third phase
         //message is a bool
-        if (edge.srcAttr._1 == 1 && edge.attr < radius) { //if facility is open, frozen the client, else Iterator itself
+        if (edge.srcAttr._1 == 1 && edge.attr < radius.localValue) { //if facility is open, frozen the client, else Iterator itself
           Iterator((edge.dstId, 1))//msg is a tag to identify frozened
         } else {
           Iterator.empty
@@ -95,3 +95,4 @@ object facilityLocation {
       Pregel(graph, 0)(vertexProgram, sendMessage, mergeMssage)
   }
 }
+
