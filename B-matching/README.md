@@ -134,6 +134,5 @@ So, our final graph will have the type `Graph`[`(Int, Set[Edge[Int]], Set[Edge[I
 
 ![Result in graph](http://i.imgur.com/APV3St4.png)
 
-Since the GreedyMR Algorithm is desgined to compute parallelly, Pregel works apparently. 
 
 
