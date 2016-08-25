@@ -83,13 +83,13 @@ So, our final graph will have the type `Graph`[`(Int, Set[Edge[Int]], Set[Edge[I
             newValue_3 = value._3 ++ value._2.toSeq.sortWith(_.attr > _.attr).take(neededCandidateNum).toSet
             newValue_2 = value._2 -- newValue_3
           }
-          case 1 => {
+          case 1 => { //Pick me
             //println("ID => "+vertexId+" received "+op._1)
             newValue_1 = newValue_1 - 1
             newValue_3 = newValue_3 -- op._1
             newValue_4 = newValue_4 ++ op._1
           }
-          case 2 => {
+          case 2 => { //Kill me
             newValue_2 = newValue_2 -- op._1
             newValue_3 = newValue_3 -- op._1
 
@@ -99,7 +99,7 @@ So, our final graph will have the type `Graph`[`(Int, Set[Edge[Int]], Set[Edge[I
               newValue_2 = newValue_2 -- newValue_3
             }
           }
-          case 3 => {
+          case 3 => { //I'm useless, just check
             neededCandidateNum = value._1 - value._3.size
             if(neededCandidateNum > 0){
               newValue_3 = value._3 ++ value._2.toSeq.sortWith(_.attr > _.attr).take(neededCandidateNum).toSet
