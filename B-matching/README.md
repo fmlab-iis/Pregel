@@ -71,11 +71,6 @@ So, our final graph will have the type `Graph`[`(Int, Set[Edge[Int]], Set[Edge[I
 `vprog` : 
 
       def vprog(vertexId: VertexId, value: (Int, Set[Edge[Int]], Set[Edge[Int]], Set[Edge[Int]]), message: Set[(Set[Edge[Int]], Int)]): (Int, Set[Edge[Int]], Set[Edge[Int]], Set[Edge[Int]]) = {
-        var newValue_1 = value._1
-        var newValue_2 = value._2
-        var newValue_3 = value._3
-        var newValue_4 = value._4
-        var neededCandidateNum = 0
 
         for (op <- message) op._2 match{
           case 0 => {
@@ -84,7 +79,6 @@ So, our final graph will have the type `Graph`[`(Int, Set[Edge[Int]], Set[Edge[I
             newValue_2 = value._2 -- newValue_3
           }
           case 1 => { //Pick me
-            //println("ID => "+vertexId+" received "+op._1)
             newValue_1 = newValue_1 - 1
             newValue_3 = newValue_3 -- op._1
             newValue_4 = newValue_4 ++ op._1
@@ -92,7 +86,6 @@ So, our final graph will have the type `Graph`[`(Int, Set[Edge[Int]], Set[Edge[I
           case 2 => { //Kill me
             newValue_2 = newValue_2 -- op._1
             newValue_3 = newValue_3 -- op._1
-
             neededCandidateNum = value._1 - value._3.size
             if(neededCandidateNum > 0){
               newValue_3 = newValue_3 ++ value._2.toSeq.sortWith(_.attr > _.attr).take(neededCandidateNum).toSet
@@ -111,7 +104,6 @@ So, our final graph will have the type `Graph`[`(Int, Set[Edge[Int]], Set[Edge[I
 
 `sendMsg` :
 
-
         if(triplet.srcAttr._2(self) || triplet.srcAttr._3(self) || triplet.dstAttr._2(self) || triplet.dstAttr._3(self)){
             if(triplet.srcAttr._1 == 0 || triplet.dstAttr._1 == 0){
               val tmp: Set[(Set[Edge[Int]], Int)] = Set((Set(self),2))
@@ -128,7 +120,7 @@ So, our final graph will have the type `Graph`[`(Int, Set[Edge[Int]], Set[Edge[I
 
 
 `mergeMsg` :
-
+	
 	if (msg1 == null && msg2 == null) null
         else  msg1.union(msg2)
     
