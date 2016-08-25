@@ -9,6 +9,7 @@ The travelling salesman problem (TSP) asks the following question: Given a list 
 ***
 
 ![mineInitialGraph](http://i.imgur.com/1kJ5mRY.png)
+
 We model the vertices to have property of type (`Int`,  `Set[P]`,  `Set[P]`)which store the value of `Number of Vertices`, `Candidate Paths`, `Picked Path`, `Index of Supersteps`.
 
 Since edges do have property, we set an `Int` property to the edges in order to store the weight.
