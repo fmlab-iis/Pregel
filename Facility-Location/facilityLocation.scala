@@ -80,10 +80,6 @@ object facilityLocation {
       } else { // third phase
         //message is a bool
         if (edge.srcAttr._1 == 1 && edge.attr < edge.srcAttr._4) { //if facility is open, frozen the client, else Iterator itself
-         println("OOOOO")
-          println("dstId: "+edge.dstId)
-          println("srcID: "+edge.srcId)
-          println("OOOOOO")
           Iterator((edge.dstId, 1), (edge.srcId, 0)) //msg is a tag to identify frozened
         }
         else if(edge.srcAttr._1==0&&edge.dstAttr._1==0){//if the facility is unopen and the client is unfrozen keep the edges alive
