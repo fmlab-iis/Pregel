@@ -48,7 +48,7 @@ We are given an undirected bipartite graph `G = (T,C,E)`.
 
 ***
 
-![mineInitialGraph](http://i.imgur.com/MVrCr2M.png)
+![mineInitialGraph](http://i.imgur.com/0rBd2X5.png)
 We model the vertices to have property of type (`Int`, `Set[Edge[Int]]`, `Set[Edge[Int]]`, `Set[Edge[Int]]`) which store the value of `capacity`, `Candidate Edges`, `Lv`, `M`.
 
 ( Let `Lv` be the set of edges incident to `v` with maximum weight, `M` be the picked Edges.) 
@@ -129,7 +129,7 @@ So, our final graph will have the type `Graph`[`(Int, Set[Edge[Int]], Set[Edge[I
 
 ***
 
-![Result](http://i.imgur.com/d9nYIjl.png)
+![Result](http://i.imgur.com/yvV19w1.png)
 
 
 ![Result in graph](http://i.imgur.com/APV3St4.png)
